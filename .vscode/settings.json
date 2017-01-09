@@ -13,22 +13,6 @@
       ".idea/": true
    },
 
-   "go.gopath": "/users/jason-abbott/Dev/go",
-   "go.buildOnSave": true,
-   "go.lintOnSave": true,
-   "go.vetOnSave": true,
-   "go.buildTags": "",
-   "go.buildFlags": [],
-   "go.lintTool": "golint",
-   "go.lintFlags": [],
-   "go.vetFlags": [],
-   "go.coverOnSave": false,
-   "go.useCodeSnippetsOnFunctionSuggest": false,
-   "go.formatOnSave": false, 
-   "go.formatTool": "goreturns",
-   "go.formatFlags": [],
-   "go.gocodeAutoBuild": false,
-
    "mocha.env": {
       "FLICKR_API_KEY": "${env.FLICKR_API_KEY}",
       "FLICKR_SECRET": "${env.FLICKR_SECRET}",
