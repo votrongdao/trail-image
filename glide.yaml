@@ -1,7 +1,0 @@
-package: trailimage.com
-homepage: https://github.com/Jason-Abbott/trail-image
-owners:
-- name: Jason Abbott
-excludeDirs:
-- node_modules
-

@@ -1,30 +1,44 @@
-// Place your settings in this file to overwrite default and user settings.
 {
    "css.validate": false,
-
-   "editor.fontFamily": "Fira Code",
-   "editor.fontLigatures": true,
    "editor.tabSize": 3,
+   "stylelint.enable": true,
 
-   "files.associations": {
-      "procfile": "yaml"
-   },
-   "files.exclude": {
-      ".idea/": true
-   },
-
-   "mocha.env": {
-      "FLICKR_API_KEY": "${env.FLICKR_API_KEY}",
-      "FLICKR_SECRET": "${env.FLICKR_SECRET}",
-      "REDISCLOUD_URL": "${env.REDISCLOUD_URL}",
-      "GOOGLE_DRIVE_KEY": "${env.GOOGLE_DRIVE_KEY}",
-      "GOOGLE_CLIENT_ID": "${env.GOOGLE_CLIENT_ID}",
-      "GOOGLE_SECRET": "${env.GOOGLE_SECRET}"
-   },
-   "mocha.files.glob": "test/**/*.test.js",
-   "mocha.options": {
-      "ui": "bdd"
+   "search.exclude": {
+      "**/node_modules": true,
+      "**/vendor": true
    },
 
-   "npm-intellisense.scanDevDependencies": true
+   "eslint.enable": false,
+
+   "tslint.enable": true,
+   "tslint.run": "onType",
+
+   "go.buildOnSave": true,
+   "go.vetOnSave": true,
+   "go.vetFlags": [],
+   "go.buildTags": "",
+   // See https://golang.org/src/cmd/go/build.go
+   "go.buildFlags": [],
+   "go.testFlags": [],
+   "go.lintTool": "gometalinter",
+   // See https://github.com/alecthomas/gometalinter
+   "go.lintFlags": [
+      "disable-all",
+      "enable=errcheck",
+      "enable=goconst",
+      "enable=gotype",
+      "enable=staticcheck",
+      "enable=structcheck",
+      "enable=unconvert",
+      "enable=varcheck",
+      "enable=vet"
+      ],
+   "go.lintOnSave": true,
+   "go.coverOnSave": false,
+   "go.useCodeSnippetsOnFunctionSuggest": true,
+   "go.formatTool": "goimports",
+   "go.formatFlags": [],
+   "go.formatOnSave": true,
+   // enabling this breaks the linters
+   "go.gocodeAutoBuild": false
 }

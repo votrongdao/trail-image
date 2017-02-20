@@ -1,37 +1,20 @@
 package trailimage
 
 import (
-    "fmt"
-    "net/http"
-
-    "appengine"
-    "appengine/user"
+	"html/template"
+	"net/http"
 )
 
 func init() {
-    http.HandleFunc("/", handler)
+	http.HandleFunc("/", hello)
 }
 
-func handler(w http.ResponseWriter, r *http.Request) {
-    // [START new_context]
-    c := appengine.NewContext(r)
-    // [END new_context]
-    // [START get_current_user]
-    u := user.Current(c)
-    // [END get_current_user]
-    // [START if_user]
-    if u == nil {
-        url, err := user.LoginURL(c, r.URL.String())
-        if err != nil {
-            http.Error(w, err.Error(), http.StatusInternalServerError)
-            return
-        }
-        w.Header().Set("Location", url)
-        w.WriteHeader(http.StatusFound)
-        return
-    }
-    // [END if_user]
-    // [START output]
-    fmt.Fprintf(w, "Hello, %v!", u)
-    // [END output]
+// see https://hackernoon.com/golang-template-1-bcb690165663
+func hello(w http.ResponseWriter, r *http.Request) {
+	t, err := template.ParseFiles("templates/post.html")
+	if err != nil {
+		w.Write([]byte("Unable to find template"))
+	} else {
+		t.Execute(w, "Hello World!")
+	}
 }
