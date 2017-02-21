@@ -8,6 +8,15 @@ type (
 		Message     string        `json:"message"`
 		Collections []*Collection `json:"collections"`
 		Photo       PhotoInfo     `json:"photo"`
+		Sizes       []*Size       `json:"sizes"`
+		Photos      struct {
+			Photo SearchResult `json:"photo"`
+		} `json:"photos"`
+		Who struct {
+			Tags struct {
+				Tag []Tag `json:"tag"`
+			} `json:"tags"`
+		} `json:"who"`
 	}
 
 	SearchResult struct {

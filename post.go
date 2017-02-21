@@ -1,6 +1,10 @@
 package trailimage
 
-import "time"
+import (
+	"time"
+
+	"trailimage.com/flickr"
+)
 
 type Post struct {
 	ID            string
@@ -11,7 +15,7 @@ type Post struct {
 	// HasTrack indicates whether a GPS track was found for the post
 	HasTrack      bool
 	originalTitle string
-	PhotoCount    int
+	PhotoCount    uint
 	Photos        []*Photo
 	CoverPhoto    *Photo
 
@@ -25,12 +29,12 @@ type Post struct {
 
 	IsPartial bool
 	// position of this post in a series
-	Part int
+	Part uint
 	// whether next post is part of the same series
 	NextIsPart bool
 	// whether previous post is part of the same series
 	PreviousIsPart bool
-	TotalParts     int
+	TotalParts     uint
 	IsSeriesStart  bool
 
 	Key       string
@@ -39,6 +43,9 @@ type Post struct {
 
 	Next     *Post
 	Previous *Post
+
+   BigThumbUrl string
+   SmallThumbUrl string
 }
 
 func (p *Post) MakeSeriesStart() *Post {
@@ -87,3 +94,34 @@ func (p *Post) RemoveInfo() *Post {
 
 	return p
 }
+
+func ParseSetInfo(info *flickr.SetInfo) *Post {
+   thumb := fmt.Sprintf("http://farm%s.staticflicker.com/%s/%s_%s", info.Farm, info.Server, info.IsPrimary, info.Secret)
+	return &Post{
+      ID: info.ID
+      PhotoCount: info.Photos
+      Description: info.Description.Text
+      BigThumbUrl: thumb + ".jpg"
+      SmallThumbUrl: thumb + "_s.jpg"
+      InfoLoaded: true
+   }
+}
+
+// const thumb = `http://farm${setInfo.farm}.staticflickr.com/${setInfo.server}/${setInfo.primary}_${setInfo.secret}`;
+
+//       return Object.assign(this, {
+//          // removes video information from setInfo.description
+//          video: buildVideoInfo(setInfo),
+//          createdOn: util.date.fromTimeStamp(setInfo.date_create),
+//          updatedOn: util.date.fromTimeStamp(setInfo.date_update),
+//          photoCount: setInfo.photos,
+//          description: setInfo.description._content.remove(/[\r\n\s]*$/),
+//          // long description is updated after photos are loaded
+//          longDescription: this.description,
+//          // http://farm{farm-id}.staticflickr.com/{server-id}/{id}_{secret}_[mstzb].jpg
+//          // http://farm{{info.farm}}.static.flickr.com/{{info.server}}/{{info.primary}}_{{info.secret}}.jpg'
+//          // thumb URLs may be needed before photos are loaded, e.g. in RSS XML
+//          bigThumbURL: thumb + '.jpg',     // 500px
+//          smallThumbURL: thumb + '_s.jpg',
+//          infoLoaded: true
+//       });

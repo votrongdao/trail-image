@@ -6,22 +6,24 @@ type (
 		WhereOnEarthID string `json:"woeid"`
 	}
 
-	Location struct {
+	Coordinate struct {
 		Latitude  float32 `json:"latitude"`
 		Longitude float32 `json:"longitude"`
-		Accuracy  int     `json:"accuracy"`
-		Context   int     `json:"context"`
-		County    Place   `json:"county"`
-		Region    Place   `json:"region"`
-		Country   Place   `json:"country"`
 	}
 
-	FarmLocation struct {
+	Location struct {
+		Coordinate
+		Accuracy int   `json:"accuracy"`
+		Context  int   `json:"context"`
+		County   Place `json:"county"`
+		Region   Place `json:"region"`
+		Country  Place `json:"country"`
+	}
+
+	ServerLocation struct {
 		ID     string `json:"id"`
 		Secret string `json:"secret"`
 		Server string `json:"server"`
 		Farm   uint   `json:"farm"`
 	}
-
-	
 )
