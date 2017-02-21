@@ -1,3 +1,6 @@
+## 3.0.0
+- Rewrite in Go
+
 ## 2.2.0
 - Use in-memory caching rather than Redis for views
 - Update dependencies
