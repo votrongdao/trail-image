@@ -1,6 +1,7 @@
 package flickr
 
 type (
+	// http://www.flickr.com/services/api/response.json.html
 	Response struct {
 		SetForPhoto *SetForPhoto  `json:"set"`
 		SetInfo     []*SetInfo    `json:"photoset"`
@@ -12,11 +13,11 @@ type (
 		Photo       *PhotoInfo    `json:"photo"`
 		Sizes       []*Size       `json:"sizes"`
 		Photos      struct {
-			Photo SearchResult `json:"photo"`
+			Photo *SearchResult `json:"photo"`
 		} `json:"photos"`
 		Who struct {
 			Tags struct {
-				Tag []Tag `json:"tag"`
+				Tag []*Tag `json:"tag"`
 			} `json:"tags"`
 		} `json:"who"`
 	}

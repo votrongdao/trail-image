@@ -5,22 +5,29 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strings"
+
+	"github.com/mrjones/oauth"
 )
 
 type (
 	Client struct {
-		UserID    string
-		Key       string
-		Token     string
-		Signature string
+		UserID       string
+		ApiKey       string
+		Token        string
+		Secret       string
+		Signature    string
+		RequestToken string
+		AccessToken  string
+		CallbackUrl  string
 	}
 
 	Params map[string]string
 )
 
+// http://www.flickr.com/services/api/response.json.html
 func (c *Client) call(method, idType, id string, extras Params) (*Response, error) {
 	key := method + ":" + id
-	url := "https://" + URL_HOST + URL_BASE + parameterize(method, idType, id, extras)
+	url := "https://" + URL_HOST + URL_BASE + c.parameterize(method, idType, id, extras)
 
 	res, err := http.Get(url)
 	if err != nil {
@@ -41,12 +48,24 @@ func (c *Client) call(method, idType, id string, extras Params) (*Response, erro
 	return api, nil
 }
 
-func parameterize(method, idType, id string, extras Params) string {
+// https://github.com/mrjones/oauth/blob/master/examples/netflix/netflix.go
+func (c *Client) authCall() error {
+	client := oauth.NewConsumer(
+		c.ApiKey,
+		c.Secret,
+		oauth.ServiceProvider{
+			RequestTokenUrl:   "http://www.flickr.com/services/oauth/request_token",
+			AuthorizeTokenUrl: "http://www.flickr.com/services/oauth/authorize",
+			AccessTokenUrl:    "http://www.flickr.com/services/oauth/access_token",
+		})
+	return nil
+}
+
+func (c *Client) parameterize(method, idType, id string, extras Params) string {
 	qs := ""
 	op := "?"
-
 	args := Params{
-		"api_key":        "",
+		"api_key":        c.ApiKey,
 		"format":         "json",
 		"nojsoncallback": "1",
 		"method":         "flickr." + method,
@@ -115,7 +134,7 @@ func (c *Client) GetPhotoSizes(photoID string) (*[]Size, error) {
 	//call(method.photo.SIZES, type.PHOTO, id, { value: r => r.sizes.size }),
 }
 
-func (c *Client) GetTaggedPhotos(tags []string) ([]*PhotoSummary, error) {
+func (c *Client) GetTaggedPhotos(tags []string) (*SearchResult, error) {
 	res, err := c.call(METHOD_PHOTO_SIZES, TYPE_USER, c.UserID, Params{
 		"extras": strings.Join([]string{
 			EXTRA_DESCRIPTION,
@@ -162,4 +181,12 @@ func (c *Client) GetExif(photoID string) (*EXIF, error) {
 	}
 	return res.Photo.EXIF, nil
 	// call(method.photo.EXIF, type.PHOTO, id, { value: r => r.photo.exif, allowCache: true }),
+}
+
+func (c *Client) GetUserTags() ([]*Tag, error) {
+	res, err := c.call("tags.getListUserRaw", TYPE_USER, c.UserID, nil)
+	if err != nil {
+		return nil, err
+	}
+	return res.Who.Tags.Tag, nil
 }
