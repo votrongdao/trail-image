@@ -22,7 +22,7 @@ const (
 	}
 )
 
-var Owner = &linkdata.Owner{
+var Owner = &linkdata.Person{
    Name: "Jason Abbott"
    Image: &linkdata.Image{
       Url: "http://www.trailimage.com/img/face4_300px.jpg",

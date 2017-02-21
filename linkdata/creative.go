@@ -21,13 +21,32 @@ type (
 		ProductionCompany *Organization   `json:"productionCompany"`
 	}
 
-	// http://schema.org/ImageObject
-	Image struct {
-		Url    string `json:"url"`
-		Width  uint   `json:"width"`
-		Height uint   `json:"height"`
+	MediaObject struct {
+		CreativeWork
+		ContentSize         string `json:"contentSize"`
+		RequireSubscription bool   `json:"requireSubscription"`
 	}
 
+	// http://schema.org/ImageObject
+	Image struct {
+		MediaObject
+		Caption   string `json:"caption"`
+		Thumbnail *Image `json:"thumbnail"`
+	}
+
+	Video struct {
+		MediaObject
+		Actor      *Person     `json:"actor"`
+		Caption    string      `json:"caption"`
+		Director   *Person     `json:"director"`
+		MusicBy    *MusicGroup `json:"musicBy"`
+		Thumbnail  *Image      `json:"thumbnail"`
+		Transcript string      `json:"transcript"`
+		FrameSize  string      `json:"videoFrameSize"`
+		Quality    string      `json:"videoQuality"`
+	}
+
+	// http://schema.org/Article
 	Article struct {
 		CreativeWork
 		Body       string `json:"articleBody"`
@@ -46,15 +65,18 @@ type (
 		Selection string `json:"printSelection"`
 	}
 
+	// http://schema.org/SocialMediaPosting
 	SocialMediaPosting struct {
 		Article
 		Content *CreativeWork `json:"sharedContent"`
 	}
 
+	// http://schema.org/BlogPosting
 	BlogPosting struct {
 		SocialMediaPosting
 	}
 
+	// http://schema.org/Blog
 	Blog struct {
 		Thing
 		Posts []*BlogPosting `json:"blogPost"`
