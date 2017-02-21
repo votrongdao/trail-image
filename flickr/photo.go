@@ -58,7 +58,7 @@ type (
 	}
 
 	PhotoMembership struct {
-		Set []*MemberSet `json:"set"`
+		Set []*SetForPhoto `json:"set"`
 	}
 
 	PhotoDates struct {

@@ -1,6 +1,6 @@
 package flickr
 
-type Exif struct {
+type EXIF struct {
 	TagSpace   string  `json:"tagspace"`
 	TagSpaceID int     `json:"tagspaceid"`
 	Tag        string  `json:"tag"`

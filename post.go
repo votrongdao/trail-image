@@ -1,4 +1,4 @@
-package trailimage
+package main
 
 import (
 	"time"

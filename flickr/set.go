@@ -23,7 +23,20 @@ type (
 		DateUpdate   uint   `json:"date_update"`
 	}
 
-	MemberSet struct {
+	SetPhotos struct {
+		Set       *SetInfo        `json:"photoset"`
+		Photos    []*PhotoSummary `json:"photo"`
+		Page      uint            `json:"page"`
+		PerPage   uint            `json:"per_page"`
+		PageCount uint            `json:"pages"`
+		Primary   string          `json:"primary"`
+		OwnerID   string          `json:"owner"`
+		OwnerName string          `json:"ownername"`
+		Title     string          `json:"title"`
+		Total     uint            `json:"total"`
+	}
+
+	SetForPhoto struct {
 		ServerLocation
 		Title        string `json:"title"`
 		Primary      string `json:"primary"`

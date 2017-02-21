@@ -1,4 +1,4 @@
-package trailimage
+package main
 
 type Exif struct {
 	Artist       string

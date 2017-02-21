@@ -1,13 +1,15 @@
 package flickr
 
 type (
-	Reponse struct {
-		Set         MemberSet     `json:"set"`
+	Response struct {
+		SetForPhoto *SetForPhoto  `json:"set"`
+		SetInfo     []*SetInfo    `json:"photoset"`
+		SetPhotos   []*SetPhotos  `json:"photoset"`
 		Status      string        `json:"stat"`
 		Code        int           `json:"code"`
 		Message     string        `json:"message"`
 		Collections []*Collection `json:"collections"`
-		Photo       PhotoInfo     `json:"photo"`
+		Photo       *PhotoInfo    `json:"photo"`
 		Sizes       []*Size       `json:"sizes"`
 		Photos      struct {
 			Photo SearchResult `json:"photo"`

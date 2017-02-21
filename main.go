@@ -1,8 +1,11 @@
-package trailimage
+package main
 
 import (
 	"html/template"
 	"net/http"
+
+	"google.golang.org/appengine"
+	"google.golang.org/appengine/datastore"
 )
 
 func init() {
@@ -17,4 +20,7 @@ func hello(w http.ResponseWriter, r *http.Request) {
 	} else {
 		t.Execute(w, "Hello World!")
 	}
+
+	ctx := appengine.NewContext(r)
+	q := datastore.NewQuery("Greeting").Ancestor(guestbookKey(ctx)).Order("-Date").Limit(10)
 }

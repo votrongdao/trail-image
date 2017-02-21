@@ -1,4 +1,4 @@
-package trailimage
+package main
 
 type Library struct {
 	Tags  []string

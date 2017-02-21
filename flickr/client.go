@@ -4,27 +4,12 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
-
-	"trailimage.com/flickr/method"
-)
-
-const (
-	TYPE_USER  = "user_id"
-	TYPE_SET   = "photoset_id"
-	TYPE_PHOTO = "photo_id"
-)
-
-const (
-	URL_HOST          = "api.flickr.com"
-	URL_BASE          = "/services/rest/"
-	URL_TOKEN_REQUEST = "http://www.flickr.com/services/oauth/request_token"
-	URL_AUTHORIZE     = "http://www.flickr.com/services/oauth/authorize"
-	URL_TOKEN_ACCESS  = "http://www.flickr.com/services/oauth/access_token"
-	URL_PHOTO_SET     = "http://www.flickr.com/photos/trailimage/sets/"
+	"strings"
 )
 
 type (
 	Client struct {
+		UserID    string
 		Key       string
 		Token     string
 		Signature string
@@ -33,22 +18,27 @@ type (
 	Params map[string]string
 )
 
-func call(method, idType, id string, out interface{}, extras Params) error {
+func (c *Client) call(method, idType, id string, extras Params) (*Response, error) {
 	key := method + ":" + id
 	url := "https://" + URL_HOST + URL_BASE + parameterize(method, idType, id, extras)
 
 	res, err := http.Get(url)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	defer res.Body.Close()
 
 	body, err := ioutil.ReadAll(res.Body)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	return json.Unmarshal(body, out)
+	api := &Response{}
+
+	if err = json.Unmarshal(body, api); err != nil {
+		return nil, err
+	}
+	return api, nil
 }
 
 func parameterize(method, idType, id string, extras Params) string {
@@ -81,26 +71,43 @@ func parameterize(method, idType, id string, extras Params) string {
 	return qs
 }
 
-func GetCollections(id string) (*Collection, error) {
-	out := &Collection{}
-	if err := call(method.COLLECTIONS, TYPE_USER, id, out, nil); err != nil {
+func (c *Client) GetCollections() ([]*Collection, error) {
+	res, err := c.call("collections.getTree", TYPE_USER, c.UserID, nil)
+	if err != nil {
 		return nil, err
 	}
-	return out, nil
+	return res.Collections, nil
 	// call(method.COLLECTIONS, type.USER, config.flickr.userID
 }
 
-func GetSetInfo(id string) (*SetInfo, error) {
-	out := &SetInfo{}
-	if err := call(method.SET_INFO, TYPE_SET, id, out, nil); err != nil {
+func (c *Client) GetSetInfo(setID string) (*SetInfo, error) {
+	res, err := c.call("photosets.getInfo", TYPE_SET, setID, nil)
+	if err != nil {
 		return nil, err
 	}
-	return out, nil
+	return res.SetInfo[0], nil
 	//getSetInfo: id => call(method.set.INFO, type.SET, id, { value: r => r.photoset, allowCache: true }),
 }
 
-func GetPhotoSizes(id string) interface{} {
-	res, err := call(method.PHOTO_SIZES, TYPE_PHOTO, id, nil)
+func (c *Client) GetSetPhotos(setID string) (*SetPhotos, error) {
+	res, err := c.call(METHOD_SET_PHOTOS, TYPE_SET, setID, Params{
+		"extras": strings.Join([]string{
+			EXTRA_DESCRIPTION,
+			EXTRA_TAGS,
+			EXTRA_DATE_TAKEN,
+			EXTRA_LOCATION,
+			EXTRA_PATH_ALIAS,
+		}, ","),
+	})
+	if err != nil {
+		return nil, err
+	}
+	return res.SetPhotos[0], nil
+	// call(method.set.PHOTOS, type.SET, id
+}
+
+func (c *Client) GetPhotoSizes(photoID string) (*[]Size, error) {
+	res, err := c.call(METHOD_PHOTO_SIZES, TYPE_PHOTO, photoID, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -108,12 +115,32 @@ func GetPhotoSizes(id string) interface{} {
 	//call(method.photo.SIZES, type.PHOTO, id, { value: r => r.sizes.size }),
 }
 
-func GetPhotoContext(id string) (*PhotoInfo, error) {
-	empty := &PhotoInfo{}
-	if err := call(method.PHOTO_SETS, TYPE_PHOTO, id, nil); err != nil {
+func (c *Client) GetTaggedPhotos(tags []string) ([]*PhotoSummary, error) {
+	res, err := c.call(METHOD_PHOTO_SIZES, TYPE_USER, c.UserID, Params{
+		"extras": strings.Join([]string{
+			EXTRA_DESCRIPTION,
+			EXTRA_TAGS,
+			EXTRA_DATE_TAKEN,
+			EXTRA_LOCATION,
+			EXTRA_PATH_ALIAS,
+		}, ","),
+		"tags":     strings.Join(tags, ","),
+		"sort":     "relevance",
+		"per_page": "500",
+	})
+
+	if err != nil {
 		return nil, err
 	}
-	return empty, nil
+	return res.Photos.Photo, nil
+}
+
+func (c *Client) GetPhotoContext(photoID string) (*SetForPhoto, error) {
+	res, err := c.call("photos.getAllContexts", TYPE_PHOTO, photoID, nil)
+	if err != nil {
+		return nil, err
+	}
+	return res.SetForPhoto, nil
 
 	// info := &struct {
 	// 	PhotoSet struct {
@@ -125,28 +152,14 @@ func GetPhotoContext(id string) (*PhotoInfo, error) {
 	// 		} `json:"description"`
 	// 	} `json:"photoset"`
 	// }{}
-
-	if err := Parse(res, info); err != nil {
-		return nil, err
-	}
-	return nil, nil
 	// call(method.photo.SETS, type.PHOTO, id, { value: r => r.set }),
 }
 
-func GetExif(id string) interface{} {
-	res, err := call(method.PHOTO_EXIF, TYPE_PHOTO, id, nil)
+func (c *Client) GetExif(photoID string) (*EXIF, error) {
+	res, err := c.call("photos.getExif", TYPE_PHOTO, photoID, nil)
 	if err != nil {
 		return nil, err
 	}
-	return nil, nil
+	return res.Photo.EXIF, nil
 	// call(method.photo.EXIF, type.PHOTO, id, { value: r => r.photo.exif, allowCache: true }),
-}
-
-func GetSetPhotos(id string) (*SetInfo, error) {
-	res, err := call(method.SET_PHOTOS, TYPE_SET, id, nil)
-	if err != nil {
-		return nil, err
-	}
-	return nil, nil
-	// call(method.set.PHOTOS, type.SET, id
 }
