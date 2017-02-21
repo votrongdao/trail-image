@@ -135,7 +135,7 @@ declare namespace JsonLD {
       encoding: MediaObject,
       hasPart: CreativeWork,
       isPartOf: CreativeWork,
-      headling: string,
+      headline: string,
       keywords: string,
       locationCreated: Place,
       review: Review,
@@ -657,7 +657,7 @@ declare namespace JsonLD {
 
    interface Person extends Thing {
       additionalName: string,
-      addres: PostalAddress|string,
+      address: PostalAddress|string,
       affiliation: Organization,
       alumniOf: EducationalOrganization[]|Organization[],
       award: string,
