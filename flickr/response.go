@@ -16,4 +16,10 @@ type (
 		PerPage uint `json:"perpage"`
 		Total   uint `json:"total"`
 	}
+
+	FailResponse struct {
+		Stat    string
+		Code    int
+		Message string
+	}
 )

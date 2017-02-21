@@ -1,9 +1,6 @@
 package flickr
 
 type (
-	Set struct {
-	}
-
 	SetSummary struct {
 		ID          string `json:"id"`
 		Title       string `json:"title"`
