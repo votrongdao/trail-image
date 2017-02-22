@@ -93,8 +93,7 @@ func (c *Client) GetCollections() ([]Collection, error) {
 	if err != nil {
 		return nil, err
 	}
-	return res.Collections, nil
-	// call(method.COLLECTIONS, type.USER, config.flickr.userID
+	return res.Collections.List, nil
 }
 
 func (c *Client) GetSetInfo(setID string) (*SetInfo, error) {
@@ -103,7 +102,6 @@ func (c *Client) GetSetInfo(setID string) (*SetInfo, error) {
 		return nil, err
 	}
 	return res.SetInfo, nil
-	//getSetInfo: id => call(method.set.INFO, type.SET, id, { value: r => r.photoset, allowCache: true }),
 }
 
 func (c *Client) GetSetPhotos(setID string) (*SetPhotos, error) {
@@ -120,7 +118,6 @@ func (c *Client) GetSetPhotos(setID string) (*SetPhotos, error) {
 		return nil, err
 	}
 	return res.SetPhotos, nil
-	// call(method.set.PHOTOS, type.SET, id
 }
 
 func (c *Client) GetPhotoSizes(photoID string) ([]*Size, error) {
@@ -129,7 +126,6 @@ func (c *Client) GetPhotoSizes(photoID string) ([]*Size, error) {
 		return nil, err
 	}
 	return res.Sizes.Size, nil
-	//call(method.photo.SIZES, type.PHOTO, id, { value: r => r.sizes.size }),
 }
 
 func (c *Client) GetTaggedPhotos(tags []string) (*PhotoSearch, error) {
@@ -158,18 +154,6 @@ func (c *Client) GetPhotoContext(photoID string) (*SetForPhoto, error) {
 		return nil, err
 	}
 	return res.SetForPhoto, nil
-
-	// info := &struct {
-	// 	PhotoSet struct {
-	// 		Title struct {
-	// 			Content string `json:"_content"`
-	// 		} `json:"title"`
-	// 		Description struct {
-	// 			Content string `json:"_content"`
-	// 		} `json:"description"`
-	// 	} `json:"photoset"`
-	// }{}
-	// call(method.photo.SETS, type.PHOTO, id, { value: r => r.set }),
 }
 
 func (c *Client) GetExif(photoID string) ([]*EXIF, error) {
@@ -178,7 +162,6 @@ func (c *Client) GetExif(photoID string) ([]*EXIF, error) {
 		return nil, err
 	}
 	return res.Photo.EXIF, nil
-	// call(method.photo.EXIF, type.PHOTO, id, { value: r => r.photo.exif, allowCache: true }),
 }
 
 func (c *Client) GetUserTags() ([]*Tag, error) {

@@ -25,10 +25,13 @@ func mockResponse(t *testing.T, name string) *flickr.Response {
 }
 
 func TestCollection(t *testing.T) {
-	t.Skip("no")
 	res := mockResponse(t, "collections.getTree")
+	collections := res.Collections.List
+	sets := collections[0].Collections[0].Sets
 
-	assert.NotNil(t, res)
+	assert.Equal(t, "When", collections[0].Title)
+	assert.Len(t, sets, 5)
+	assert.Equal(t, "Stanley Lake Snow Hike", sets[0].Title)
 }
 
 func TestEXIF(t *testing.T) {

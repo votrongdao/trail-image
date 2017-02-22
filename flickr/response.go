@@ -9,11 +9,13 @@ type (
 		Status      string       `json:"stat"`
 		Code        int          `json:"code"`
 		Message     string       `json:"message"`
-		Collections []Collection `json:"collections"`
-		Photo       *PhotoMatch  `json:"photo"`
-		Sizes       *SizeList    `json:"sizes"`
-		PhotoMatch  *PhotoSearch `json:"photos"`
-		TagMatch    *TagSearch   `json:"who"`
+		Collections struct {
+			List []Collection `json:"collection"`
+		} `json:"collections"`
+		Photo      *PhotoMatch  `json:"photo"`
+		Sizes      *SizeList    `json:"sizes"`
+		PhotoMatch *PhotoSearch `json:"photos"`
+		TagMatch   *TagSearch   `json:"who"`
 	}
 
 	FailResponse struct {
