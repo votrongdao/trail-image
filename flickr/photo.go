@@ -1,5 +1,10 @@
 package flickr
 
+import (
+	"bytes"
+	"encoding/json"
+)
+
 type (
 	PhotoMatch struct {
 		ServerLocation
@@ -11,11 +16,11 @@ type (
 	}
 
 	PhotoSearch struct {
-		Page    uint        `json:"page"`
-		Pages   uint        `json:"pages"`
-		PerPage string      `json:"perpage"`
-		Total   uint        `json:"total"`
-		Photos  *PhotoMatch `json:"photo"`
+		Page      uint          `json:"page"`
+		PageCount uint          `json:"pages"`
+		PerPage   string        `json:"perpage"`
+		Total     uint          `json:"total"`
+		Photos    []*PhotoMatch `json:"photo"`
 	}
 
 	// See https://www.flickr.com/services/api/misc.urls.html
@@ -64,7 +69,7 @@ type (
 	//    width_l?: string,
 
 	Content struct {
-		Text string `json:"_content"`
+		Text string
 	}
 
 	Owner struct {
@@ -121,3 +126,16 @@ type (
 		Formatted  Content `json:"clean"`
 	}
 )
+
+func (c *Content) UnmarshalJSON(b []byte) error {
+	temp := struct {
+		Value json.RawMessage `json:"_content"`
+	}{}
+	err := json.Unmarshal(b, &temp)
+	if err != nil {
+		return err
+	}
+	c.Text = string(bytes.Trim(temp.Value, "\""))
+
+	return nil
+}

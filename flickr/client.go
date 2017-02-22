@@ -88,7 +88,7 @@ func (c *Client) parameterize(method, idType, id string, extras Params) string {
 	return qs
 }
 
-func (c *Client) GetCollections() ([]*Collection, error) {
+func (c *Client) GetCollections() ([]Collection, error) {
 	res, err := c.call("collections.getTree", TYPE_USER, c.UserID, nil)
 	if err != nil {
 		return nil, err

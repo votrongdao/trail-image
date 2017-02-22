@@ -10,22 +10,58 @@ import (
 	"trailimage.com/flickr"
 )
 
-func mockResponse(name string) (*flickr.Response, error) {
+func mockResponse(t *testing.T, name string) *flickr.Response {
 	dat, err := ioutil.ReadFile("mocks/flickr." + name + ".json")
-	if err != nil {
-		return nil, err
-	}
+	assert.NoError(t, err)
+
 	res := &flickr.Response{}
-
-	if err = json.Unmarshal(dat, res); err != nil {
-		return nil, err
-	}
-	return res, nil
-}
-
-func TestCollection(t *testing.T) {
-	res, err := mockResponse("collections.getTree")
+	err = json.Unmarshal(dat, res)
 
 	assert.NoError(t, err)
 	assert.NotNil(t, res)
+	assert.True(t, res.Okay())
+
+	return res
+}
+
+func TestCollection(t *testing.T) {
+	t.Skip("no")
+	res := mockResponse(t, "collections.getTree")
+
+	assert.NotNil(t, res)
+}
+
+func TestEXIF(t *testing.T) {
+	res := mockResponse(t, "photos.getExif")
+
+	assert.Len(t, res.Photo.EXIF, 110)
+	assert.Equal(t, res.Photo.EXIF[0].Label, "Image Description")
+	assert.Equal(t, "NIKON CORPORATION", res.Photo.EXIF[1].Raw.Text)
+}
+
+func TestPhotoSearch(t *testing.T) {
+	res := mockResponse(t, "photos.search")
+	photos := res.PhotoMatch.Photos
+
+	assert.Len(t, photos, 19)
+	assert.Equal(t, "690", photos[0].Server)
+	assert.Equal(t, "Sentinel", photos[1].Title)
+}
+
+func TestPhotoSizes(t *testing.T) {
+	res := mockResponse(t, "photos.getSizes")
+	sizes := res.Sizes.Size
+
+	assert.Len(t, sizes, 12)
+	assert.Equal(t, uint(75), sizes[0].Height)
+	assert.Equal(t, uint(150), sizes[1].Width)
+}
+
+func TestUserTags(t *testing.T) {
+	res := mockResponse(t, "tags.getListUserRaw")
+	tags := res.TagMatch.Matches()
+
+	assert.Len(t, tags, 1198)
+	assert.Equal(t, "abbott", tags[2].Slug)
+	assert.Equal(t, "Aerial", tags[4].Name())
 }
