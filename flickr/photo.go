@@ -1,22 +1,40 @@
 package flickr
 
 type (
+	PhotoMatch struct {
+		ServerLocation
+		Visibility
+		Title  string  `json:"title"`
+		Owner  string  `json:"owner"`
+		Camera string  `json:"camera"`
+		EXIF   []*EXIF `json:"EXIF"`
+	}
+
+	PhotoSearch struct {
+		Page    uint        `json:"page"`
+		Pages   uint        `json:"pages"`
+		PerPage string      `json:"perpage"`
+		Total   uint        `json:"total"`
+		Photos  *PhotoMatch `json:"photo"`
+	}
+
 	// See https://www.flickr.com/services/api/misc.urls.html
 	PhotoSummary struct {
 		Place
 		ServerLocation
 		Coordinate
 		Title                string  `json:"title"`
-		IsPrimary            bool    `json:"isprimary"`
+		IsPrimary            uint    `json:"isprimary"`
 		Tags                 string  `json:"tags"`
 		Description          Content `json:"description"`
 		DateTaken            string  `json:"datetaken"`
-		DateTakenGranularity string  `json:"datetakengranularity"`
+		DateTakenGranularity uint    `json:"datetakengranularity"`
+		DateTakenUnknown     uint    `json:"datetakenunknown"`
 		Context              int     `json:"context"`
-		geo_is_family        bool
-		geo_is_friend        bool
-		geo_is_contact       bool
-		geo_is_public        bool
+		geo_is_family        uint
+		geo_is_friend        uint
+		geo_is_contact       uint
+		geo_is_public        uint
 		LastUpdate           string `json:"lastupdate"`
 		PathAlias            string `json:"pathalias"`
 
@@ -92,5 +110,14 @@ type (
 		GeoPermission     LocationPermission `json:"geoperms"`
 		Media             string             `json:"media"`
 		URLs              string
+	}
+
+	EXIF struct {
+		TagSpace   string  `json:"tagspace"`
+		TagSpaceID uint    `json:"tagspaceid"`
+		Tag        string  `json:"tag"`
+		Label      string  `json:"label"`
+		Raw        Content `json:"raw"`
+		Formatted  Content `json:"clean"`
 	}
 )

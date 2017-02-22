@@ -9,4 +9,9 @@ type (
 		URL    string `json:"url"`
 		Media  string `json:"media"`
 	}
+
+	SizeList struct {
+		Usage
+		Size []*Size `json:"size"`
+	}
 )

@@ -2,16 +2,16 @@ package flickr
 
 type (
 	Usage struct {
-		CanDownload bool `json:"candownload"`
-		CanBlog     bool `json:"canblog"`
-		CanPrint    bool `json:"canprint"`
-		CanShare    bool `json:"canshare"`
+		CanDownload uint `json:"candownload"`
+		CanBlog     uint `json:"canblog"`
+		CanPrint    uint `json:"canprint"`
+		CanShare    uint `json:"canshare"`
 	}
 
 	Visibility struct {
-		IsPublic bool `json:"ispublic"`
-		IsFriend bool `json:"isfriend"`
-		IsFamily bool `json:"isfamily"`
+		IsPublic uint `json:"ispublic"`
+		IsFriend uint `json:"isfriend"`
+		IsFamily uint `json:"isfamily"`
 	}
 
 	Permission struct {

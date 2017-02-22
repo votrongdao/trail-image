@@ -54,9 +54,9 @@ func (c *Client) authCall() error {
 		c.ApiKey,
 		c.Secret,
 		oauth.ServiceProvider{
-			RequestTokenUrl:   "http://www.flickr.com/services/oauth/request_token",
-			AuthorizeTokenUrl: "http://www.flickr.com/services/oauth/authorize",
-			AccessTokenUrl:    "http://www.flickr.com/services/oauth/access_token",
+			RequestTokenUrl:   URL_TOKEN_REQUEST,
+			AuthorizeTokenUrl: URL_AUTHORIZE,
+			AccessTokenUrl:    URL_TOKEN_ACCESS,
 		})
 	return nil
 }
@@ -109,7 +109,7 @@ func (c *Client) GetSetInfo(setID string) (*SetInfo, error) {
 }
 
 func (c *Client) GetSetPhotos(setID string) (*SetPhotos, error) {
-	res, err := c.call(METHOD_SET_PHOTOS, TYPE_SET, setID, Params{
+	res, err := c.call("photosets.getPhotos", TYPE_SET, setID, Params{
 		"extras": strings.Join([]string{
 			EXTRA_DESCRIPTION,
 			EXTRA_TAGS,
@@ -126,7 +126,7 @@ func (c *Client) GetSetPhotos(setID string) (*SetPhotos, error) {
 }
 
 func (c *Client) GetPhotoSizes(photoID string) (*[]Size, error) {
-	res, err := c.call(METHOD_PHOTO_SIZES, TYPE_PHOTO, photoID, nil)
+	res, err := c.call("photos.getSizes", TYPE_PHOTO, photoID, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -135,7 +135,7 @@ func (c *Client) GetPhotoSizes(photoID string) (*[]Size, error) {
 }
 
 func (c *Client) GetTaggedPhotos(tags []string) (*SearchResult, error) {
-	res, err := c.call(METHOD_PHOTO_SIZES, TYPE_USER, c.UserID, Params{
+	res, err := c.call("photos.getSizes", TYPE_USER, c.UserID, Params{
 		"extras": strings.Join([]string{
 			EXTRA_DESCRIPTION,
 			EXTRA_TAGS,

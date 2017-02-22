@@ -16,17 +16,6 @@ const (
 )
 
 const (
-	METHOD_COLLECTIONS  = "collections.getTree"
-	METHOD_PHOTO_EXIF   = "photos.getExif"
-	METHOD_PHOTO_SEARCH = "photos.search"
-	METHOD_PHOTO_SETS   = "photos.getAllContexts"
-	METHOD_PHOTO_SIZES  = "photos.getSizes"
-	METHOD_PHOTO_TAGS   = "tags.getListUserRaw"
-	METHOD_SET_INFO     = "photosets.getInfo"
-	METHOD_SET_PHOTOS   = "photosets.getPhotos"
-)
-
-const (
 	EXTRA_DESCRIPTION = "description"
 	EXTRA_TAGS        = "tags"
 	EXTRA_DATE_TAKEN  = "date_taken"

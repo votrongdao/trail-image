@@ -4,29 +4,16 @@ type (
 	// http://www.flickr.com/services/api/response.json.html
 	Response struct {
 		SetForPhoto *SetForPhoto  `json:"set"`
-		SetInfo     []*SetInfo    `json:"photoset"`
-		SetPhotos   []*SetPhotos  `json:"photoset"`
+		SetInfo     *SetInfo      `json:"photoset"`
+		SetPhotos   *SetPhotos    `json:"photoset"`
 		Status      string        `json:"stat"`
 		Code        int           `json:"code"`
 		Message     string        `json:"message"`
 		Collections []*Collection `json:"collections"`
-		Photo       *PhotoInfo    `json:"photo"`
-		Sizes       []*Size       `json:"sizes"`
-		Photos      struct {
-			Photo *SearchResult `json:"photo"`
-		} `json:"photos"`
-		Who struct {
-			Tags struct {
-				Tag []*Tag `json:"tag"`
-			} `json:"tags"`
-		} `json:"who"`
-	}
-
-	SearchResult struct {
-		Page    uint `json:"page"`
-		Pages   uint `json:"pages"`
-		PerPage uint `json:"perpage"`
-		Total   uint `json:"total"`
+		Photo       *PhotoMatch   `json:"photo"`
+		Sizes       *SizeList     `json:"sizes"`
+		PhotoMatch  *PhotoSearch  `json:"photos"`
+		TagMatch    *TagSearch    `json:"who"`
 	}
 
 	FailResponse struct {
@@ -35,3 +22,7 @@ type (
 		Message string
 	}
 )
+
+func (r *Response) Okay() bool {
+	return r.Status == "ok"
+}
