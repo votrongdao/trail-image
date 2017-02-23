@@ -1,4 +1,4 @@
-package gps
+package gpx
 
 type GPX struct {
 }

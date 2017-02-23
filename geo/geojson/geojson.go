@@ -1,0 +1,43 @@
+package geojson
+
+type (
+	BoundingBox [4]float64
+
+	Feature struct {
+		Geometry   Geometry          `json:"geometry"`
+		Properties map[string]string `json:"properties"`
+	}
+
+	FeatureCollection struct {
+		Type        string      `json:"type"`
+		BoundingBox BoundingBox `json:"bbox"`
+		Features    []*Feature  `json:"features"`
+	}
+
+	Point struct {
+		Geometry
+	}
+
+	Line struct {
+		Geometry
+	}
+
+	MultiLine struct {
+	}
+
+	Geometry struct {
+		Type        string    `json:"type"`
+		Coordinates []float64 `json:"coordinates"`
+	}
+)
+
+// {
+//   "type": "Feature",
+//   "geometry": {
+//     "type": "Point",
+//     "coordinates": [125.6, 10.1]
+//   },
+//   "properties": {
+//     "name": "Dinagat Islands"
+//   }
+// }

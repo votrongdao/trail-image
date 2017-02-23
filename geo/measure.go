@@ -1,4 +1,4 @@
-package gps
+package geo
 
 import "math"
 import "time"
