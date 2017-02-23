@@ -1,14 +1,22 @@
+// Package gpx is used to parse GPX files.
 package gpx
 
-import "trailimage.com/geo"
+import (
+	"fmt"
+
+	"trailimage.com/geo"
+	"trailimage.com/geo/GeoJSON"
+)
 
 // https://golang.org/src/encoding/xml/example_test.go
 type (
 	File struct {
 		PrivacyCenter geo.Point
 		PrivacyMiles  float64
-		Name          string   `xml:"metadata>name"`
-		Tracks        []*Track `xml:"trk"`
+		Name          string      `xml:"metadata>name"`
+		Tracks        []*Track    `xml:"trk"`
+		Routes        []*Route    `xml:"rpt"`
+		Waypoints     []*Waypoint `xml:"wpt"`
 	}
 
 	Track struct {
@@ -16,7 +24,15 @@ type (
 		Segments []*Segment `xml:"trkseg"`
 	}
 
+	Route struct {
+		Points []*Point `xml:"rtept"`
+	}
+
 	Segment struct {
+		Points []*Point `xml:"trkpt"`
+	}
+
+	Waypoint struct {
 		Points []*Point `xml:"trkpt"`
 	}
 
@@ -61,4 +77,47 @@ func (f *File) ToLine(name string) []geo.Point {
 	}
 
 	return points
+}
+
+func (f *File) ToFeatures() *geoJSON.FeatureCollection {
+	var features []*geoJSON.Feature
+
+	for _, t := range f.Tracks {
+		for _, s := range t.Segments {
+			features = append(features, s.ToFeature())
+		}
+	}
+
+	return &geoJSON.FeatureCollection{
+		Features: features,
+	}
+}
+
+func (r *Route) ToFeature() *geoJSON.Feature {
+	return &geoJSON.Feature{
+		Type: "Feature",
+		Geometry: &geoJSON.Geometry{
+			Type: "LINE",
+		},
+	}
+}
+
+func (s *Segment) ToFeature() *geoJSON.Feature {
+	totalTime := 0.0
+	totalDistance := 0.0
+
+	geometry := &geoJSON.Geometry{
+		Type: "LINE",
+	}
+
+	return &geoJSON.Feature{
+		Type: "Feature",
+		Properties: map[string]string{
+			"topSpeed": "",
+			"avgSpeed": "",
+			"duration": fmt.Sprintf("%f", totalTime),
+			"distance": fmt.Sprintf("%f", totalDistance),
+		},
+		Geometry: geometry,
+	}
 }

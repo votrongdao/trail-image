@@ -1,6 +1,8 @@
 package geo
 
 type (
+	// Point represents a spacetime location and speed in the format expected
+	// by Google Maps Javascript.
 	Point [5]float64
 	Line  []Point
 )
@@ -25,6 +27,7 @@ func (p Point) speed() float64 {
 	return p[4]
 }
 
+// SetSepeedFromPoint computes speed from another point.
 func (p Point) SetSpeedFromPoint(other Point) {
 	p[4] = Speed(other, p)
 }

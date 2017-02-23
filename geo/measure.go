@@ -1,3 +1,4 @@
+// Package geo converts between GPX and GeoJSON and builds track statistics.
 package geo
 
 import "math"
@@ -15,6 +16,7 @@ var (
 	elevationConversion = FeetPerMeter
 )
 
+// Speed calculates miles per hour speed between two points.
 func Speed(p1, p2 Point) float64 {
 	t := math.Abs(p2.time() - p1.time())
 	d := PointDistance(p1, p2)
@@ -98,6 +100,7 @@ func Simplify(points []Point, maxDeviationFeet int) []Point {
 	return simple
 }
 
+// pop returns the last element of a slice and the shortened slice.
 func pop(stack []int) (int, []int) {
 	return stack[len(stack)-1], stack[:len(stack)-1]
 }
@@ -129,10 +132,20 @@ func PointLineDistance(p, p1, p2 Point) float64 {
 	return Δx*Δx + Δy*Δy
 }
 
+// PointDistance finds the earth surface distance between two points.
 // Given φ is latitude radians, λ is longitude radians, R is earth radius:
-// a = sin²(Δφ/2) + cos φ1 ⋅ cos φ2 ⋅ sin²(Δλ/2)
-// c = 2 ⋅ atan2(√a, √(1−a))
-// d = R ⋅ c
+//
+//    a = sin²(Δφ/2) + cos φ1 ⋅ cos φ2 ⋅ sin²(Δλ/2)
+//    c = 2 ⋅ atan2(√a, √(1−a))
+//    d = R ⋅ c
+//
+// See:
+//
+//    http://stackoverflow.com/questions/3694380/calculating-distance-between-two-points-using-latitude-longitude-what-am-i-doi
+//    http://www.geodatasource.com/developers/javascript
+//    http://www.movable-type.co.uk/scripts/latlong.html
+//    http://boulter.com/gps/distance/
+//
 func PointDistance(p1, p2 Point) float64 {
 	if SameLocation(p1, p2) {
 		return 0

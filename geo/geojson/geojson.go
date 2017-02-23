@@ -5,7 +5,8 @@ type (
 
 	Feature struct {
 		ID         string            `json:"id"`
-		Geometry   Geometry          `json:"geometry"`
+		Type       string            `json:"type"`
+		Geometry   *Geometry         `json:"geometry"`
 		Properties map[string]string `json:"properties"`
 	}
 

@@ -4,7 +4,6 @@ import (
 	"testing"
 
 	"trailimage.com/geo"
-	"trailimage.com/gps"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -24,7 +23,7 @@ func TestToRadians(t *testing.T) {
 }
 
 func TestSpeed(t *testing.T) {
-	p1 := gps.Point{-122, 48, 0, 100, 0}
+	p1 := geo.Point{-122, 48, 0, 100, 0}
 	// an hour later
 	p2 := geo.Point{-120, 50, 30, 1000 * 60 * 60, 0}
 

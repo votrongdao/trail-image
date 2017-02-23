@@ -12,7 +12,7 @@ type (
 		Index         int
 		SourceUrl     string
 		Title         string
-		Description   string
+		Caption       Caption
 		DateTaken     time.Time
 		IsPrimary     bool
 		Tags          []string
