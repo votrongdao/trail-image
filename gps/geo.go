@@ -1,6 +1,7 @@
 package gps
 
 import "math"
+import "time"
 
 type (
 	Point [5]float64
@@ -53,15 +54,21 @@ func (l Line) Duration() float64 {
 
 func Speed(p1, p2 Point) float64 {
 	t := math.Abs(p2.time() - p1.time())
-	d := Distance(p1, p2)
-	return 0
+	d := PointDistance(p1, p2)
+	if t == 0 || d == 0 {
+		return 0
+	}
+	return d / (t / (time.Hour.Seconds() * 1000))
 }
 
+// SameLocation returns true if two points share the same
+// latitude and longitude.
 func SameLocation(p1, p2 Point) bool {
 	return p1.lat() == p2.lat() && p1.lon() == p2.lon()
 }
 
-func toRadians(degrees float64) float64 {
+// ToRadians converts degrees to radians.
+func ToRadians(degrees float64) float64 {
 	return degrees * piDeg
 }
 
@@ -70,7 +77,7 @@ func Length(points []Point) float64 {
 	d := 0.0
 
 	for i := 1; i < len(points); i++ {
-		d += Distance(points[i-1], points[i])
+		d += PointDistance(points[i-1], points[i])
 	}
 	return d
 }
@@ -163,14 +170,14 @@ func PointLineDistance(p, p1, p2 Point) float64 {
 // a = sin²(Δφ/2) + cos φ1 ⋅ cos φ2 ⋅ sin²(Δλ/2)
 // c = 2 ⋅ atan2(√a, √(1−a))
 // d = R ⋅ c
-func Distance(p1, p2 Point) float64 {
+func PointDistance(p1, p2 Point) float64 {
 	if SameLocation(p1, p2) {
 		return 0
 	}
-	radLat1 := toRadians(p1.lat())
-	radLat2 := toRadians(p2.lat())
-	latDistance := toRadians(p2.lat() - p1.lat())
-	lonDistance := toRadians(p2.lon() - p1.lon())
+	radLat1 := ToRadians(p1.lat())
+	radLat2 := ToRadians(p2.lat())
+	latDistance := ToRadians(p2.lat() - p1.lat())
+	lonDistance := ToRadians(p2.lon() - p1.lon())
 
 	a := math.Pow(math.Sin(latDistance/2), 2) +
 		math.Cos(radLat1)*math.Cos(radLat2)*
