@@ -5,15 +5,15 @@ type (
 	Line  []Point
 )
 
-func (p *Point) lon() float64 {
+func (p Point) lon() float64 {
 	return p[0]
 }
 
-func (p *Point) lat() float64 {
+func (p Point) lat() float64 {
 	return p[1]
 }
 
-func (p *Point) elevation() float64 {
+func (p Point) elevation() float64 {
 	return p[2]
 }
 
@@ -23,6 +23,10 @@ func (p Point) time() float64 {
 
 func (p Point) speed() float64 {
 	return p[4]
+}
+
+func (p Point) SetSpeedFromPoint(other Point) {
+	p[4] = Speed(other, p)
 }
 
 func (l Line) first() Point {

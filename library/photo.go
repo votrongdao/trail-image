@@ -1,6 +1,10 @@
 package library
 
-import "time"
+import (
+	"time"
+
+	"trailimage.com/geo/GeoJSON"
+)
 
 type (
 	Photo struct {
@@ -33,6 +37,13 @@ type (
 		Longitude int
 	}
 )
+
+// ToGeoJSON creates a GeoJSON feature for the photo.
+func (p *Photo) ToGeoJSON() *geoJSON.Feature {
+	return &geoJSON.Feature{
+		ID: p.ID,
+	}
+}
 
 func (p *Photo) GetExif() {
 

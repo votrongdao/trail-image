@@ -28,8 +28,8 @@ type (
 	}
 )
 
-// ToSlice converts GPX point to point construct.
-func (p *Point) ToArray() geo.Point {
+// ToArray converts GPX point to a point construct.
+func (p *Point) ToArray(lastPoint geo.Point) geo.Point {
 	time := p.Time
 	ts := 0.0
 
@@ -42,18 +42,20 @@ func (p *Point) ToArray() geo.Point {
 		p.Latitude,
 		p.Elevation * geo.FeetPerMeter,
 		ts,
-		0, // speed
+		speed,
 	}
 }
 
 // ToLine converts all track points into a line of points.
 func (f *File) ToLine(name string) []geo.Point {
 	var points []geo.Point
+	var lastPoint geo.Point
 
 	for _, t := range f.Tracks {
 		for _, s := range t.Segments {
 			for _, p := range s.Points {
-				points = append(points, p.ToArray())
+				lastPoint = p.ToArray(lastPoint)
+				points = append(points, lastPoint)
 			}
 		}
 	}

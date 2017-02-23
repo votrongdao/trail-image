@@ -1,6 +1,7 @@
 package library
 
 import (
+	"fmt"
 	"time"
 
 	"trailimage.com/flickr"
@@ -12,7 +13,7 @@ type Post struct {
 	PhotosLoaded  bool
 	InfoLoaded    bool
 	TriedTrack    bool
-	// HasTrack indicates whether a GPS track was found for the post
+	// whether a GPS track was found for the post
 	HasTrack      bool
 	originalTitle string
 	PhotoCount    uint
@@ -44,8 +45,8 @@ type Post struct {
 	Next     *Post
 	Previous *Post
 
-   BigThumbUrl string
-   SmallThumbUrl string
+	BigThumbUrl   string
+	SmallThumbUrl string
 }
 
 func (p *Post) MakeSeriesStart() *Post {
@@ -96,15 +97,15 @@ func (p *Post) RemoveInfo() *Post {
 }
 
 func ParseSetInfo(info *flickr.SetInfo) *Post {
-   thumb := fmt.Sprintf("http://farm%s.staticflicker.com/%s/%s_%s", info.Farm, info.Server, info.IsPrimary, info.Secret)
+	thumb := fmt.Sprintf("http://farm%s.staticflicker.com/%s/%s_%s", info.Farm, info.Server, info.IsPrimary, info.Secret)
 	return &Post{
-      ID: info.ID
-      PhotoCount: info.Photos
-      Description: info.Description.Text
-      BigThumbUrl: thumb + ".jpg"
-      SmallThumbUrl: thumb + "_s.jpg"
-      InfoLoaded: true
-   }
+		ID:            info.ID,
+		PhotoCount:    info.Photos,
+		Description:   info.Description.Text,
+		BigThumbUrl:   thumb + ".jpg",
+		SmallThumbUrl: thumb + "_s.jpg",
+		InfoLoaded:    true,
+	}
 }
 
 // const thumb = `http://farm${setInfo.farm}.staticflickr.com/${setInfo.server}/${setInfo.primary}_${setInfo.secret}`;

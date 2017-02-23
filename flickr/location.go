@@ -21,7 +21,6 @@ type (
 	}
 
 	ServerLocation struct {
-		ID     string `json:"id"`
 		Secret string `json:"secret"`
 		Server string `json:"server"`
 		Farm   uint   `json:"farm"`

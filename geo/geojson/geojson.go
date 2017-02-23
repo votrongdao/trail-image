@@ -31,9 +31,3 @@ type (
 		Coordinates []float64 `json:"coordinates"`
 	}
 )
-
-func FeatureFromPhoto(p *library.Photo) *Feature {
-	return &Feature{
-		ID: p.ID,
-	}
-}
