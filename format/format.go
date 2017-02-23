@@ -1,15 +1,51 @@
-package library
+package format
 
 import (
 	"fmt"
 	"strings"
+
+	"trailimage.com/format/re"
+
+	"regexp"
 )
 
-func typography(text string) string {
+type (
+	replace struct {
+		re   *regexp.Regexp
+		text string
+	}
+)
+
+func replaceAll(text string, replacements ...replace) string {
+	for _, r := range replacements {
+		text = r.re.ReplaceAllString(text, r.text)
+	}
+	return text
+}
+
+// Typography stylizes punctuation.
+func Typography(text string) string {
 	if text == "" {
 		return text
 	}
-	return ""
+	return replaceAll(text,
+		replace{
+			re:   re.QuoteRightSingle,
+			text: "$1&rsquo;",
+		},
+		replace{
+			re:   re.QuoteLeftSingle,
+			text: "&lsquo;$1",
+		},
+		replace{
+			re:   re.QuoteRightDouble,
+			text: "$1&rdquo;",
+		},
+		replace{
+			re:   re.QuoteLeftDouble,
+			text: "$1&rdquo;",
+		},
+	)
 }
 
 func sayNumber(n int, capitalize bool) string {
