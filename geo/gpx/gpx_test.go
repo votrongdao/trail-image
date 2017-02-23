@@ -30,10 +30,10 @@ func TestTrackFile(t *testing.T) {
 	assert.Equal(t, "track.gpx", f.Name)
 	assert.Len(t, f.Tracks, 2)
 	assert.Len(t, f.Tracks[0].Segments, 1)
-	assert.Len(t, f.Tracks[0].Segments[0].Points, 23)
 
 	points := f.Tracks[0].Segments[0].Points
 
+	assert.Len(t, points, 23)
 	assert.Equal(t, 43.238334, points[0].Latitude)
 	assert.Equal(t, -116.3666, points[0].Longitude)
 	assert.Equal(t, 926.90, points[0].Elevation)
@@ -46,11 +46,11 @@ func TestBigTrackFile(t *testing.T) {
 	assert.Len(t, f.Tracks, 4)
 	assert.Equal(t, "2014-05-19, 014140P (Segment 6)", f.Tracks[0].Name)
 	assert.Len(t, f.Tracks[0].Segments, 1)
-	assert.Len(t, f.Tracks[0].Segments[0].Points, 23)
 
-	points := f.Tracks[0].Segments[0].Points
+	points := f.Tracks[1].Segments[0].Points
 
-	assert.Equal(t, 43.586089, points[0].Latitude)
-	assert.Equal(t, -116.174093, points[0].Longitude)
-	assert.Equal(t, 835.17, points[0].Elevation)
+	assert.Len(t, points, 21)
+	assert.Equal(t, 42.907877, points[0].Latitude)
+	assert.Equal(t, -116.641248, points[0].Longitude)
+	assert.Equal(t, 1814.20, points[0].Elevation)
 }

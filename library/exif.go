@@ -1,4 +1,4 @@
-package main
+package library
 
 type Exif struct {
 	Artist       string

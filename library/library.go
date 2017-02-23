@@ -1,4 +1,5 @@
-package main
+// Package library has models
+package library
 
 type Library struct {
 	Tags  []string

@@ -1,9 +1,10 @@
-package geojson
+package geoJSON
 
 type (
 	BoundingBox [4]float64
 
 	Feature struct {
+		ID         string            `json:"id"`
 		Geometry   Geometry          `json:"geometry"`
 		Properties map[string]string `json:"properties"`
 	}
@@ -31,13 +32,8 @@ type (
 	}
 )
 
-// {
-//   "type": "Feature",
-//   "geometry": {
-//     "type": "Point",
-//     "coordinates": [125.6, 10.1]
-//   },
-//   "properties": {
-//     "name": "Dinagat Islands"
-//   }
-// }
+func FeatureFromPhoto(p *library.Photo) *Feature {
+	return &Feature{
+		ID: p.ID,
+	}
+}
