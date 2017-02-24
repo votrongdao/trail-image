@@ -5,7 +5,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"trailimage.com/library/re"
+	"trailimage.com/format/re"
 )
 
 func TestEmail(t *testing.T) {
@@ -21,6 +21,10 @@ func TestIpAddress(t *testing.T) {
 	assert.True(t, re.IpAddress.MatchString("129.12.113.12"))
 	assert.False(t, re.IpAddress.MatchString("1b29.12.113.12"))
 	assert.Equal(t, "129.12.113.12", re.IpAddress.FindString("sdfd 129.12.113.12 asdfww"))
+}
+
+func TestLinkQuote(t *testing.T) {
+	assert.Equal(t, "", re.LinkAttributeQuotes(`<a href=\"/page&rdquo;>so you &ldquo;say&rdquo;</a>`))
 }
 
 func TestURL(t *testing.T) {

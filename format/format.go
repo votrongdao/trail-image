@@ -10,15 +10,22 @@ import (
 )
 
 type (
-	replace struct {
+	replacement struct {
 		re   *regexp.Regexp
-		text string
+		text []byte
 	}
 )
 
-func replaceAll(text string, replacements ...replace) string {
+func with(re *regexp.Regexp, text string) replacement {
+	return replacement{
+		re:   re,
+		text: []byte(text),
+	}
+}
+
+func replaceAll(text []byte, replacements ...replacement) []byte {
 	for _, r := range replacements {
-		text = r.re.ReplaceAllString(text, r.text)
+		text = r.re.ReplaceAll(text, r.text)
 	}
 	return text
 }
@@ -28,27 +35,22 @@ func Typography(text string) string {
 	if text == "" {
 		return text
 	}
-	return replaceAll(text,
-		replace{
-			re:   re.QuoteRightSingle,
-			text: "$1&rsquo;",
-		},
-		replace{
-			re:   re.QuoteLeftSingle,
-			text: "&lsquo;$1",
-		},
-		replace{
-			re:   re.QuoteRightDouble,
-			text: "$1&rdquo;",
-		},
-		replace{
-			re:   re.QuoteLeftDouble,
-			text: "$1&rdquo;",
-		},
+	raw := replaceAll([]byte(text),
+		with(re.QuoteRightSingle, "$1&rsquo;"),
+		with(re.QuoteLeftSingle, "&lsquo;$1"),
+		with(re.QuoteRightDouble, "$1&rdquo;"),
+		with(re.QuoteLeftDouble, "&ldquo;$2"),
 	)
+
+	return string(raw)
 }
 
-func sayNumber(n int, capitalize bool) string {
+// Fraction returns x/y as HTML superscript and subscripts.
+func Fraction(text string) string {
+	return re.Fraction.ReplaceAllString(text, "<sup>$1</sup>&frasl;<sub>$2</sub>")
+}
+
+func SayNumber(n int, capitalize bool) string {
 	word := fmt.Sprintf("%d", n)
 
 	switch n {
@@ -95,7 +97,7 @@ func sayNumber(n int, capitalize bool) string {
 	}
 
 	if capitalize {
-		return strings.ToLower(word)
+		return word
 	}
-	return word
+	return strings.ToLower(word)
 }
