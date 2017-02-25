@@ -16,18 +16,17 @@ var (
 	//
 	//    <a href="http://idahohistory.cdmhost.com/cdm/singleitem/collection/p16281coll21/id/116/rec/2" rel="nofollow">idahohistory.cdmhost.com/cdm/singleitem/collection/p16281...</a>
 	//
-	//EllipsisLink = regexp.MustCompile(`(?i)<a href=["'](https?:\/\/)?([^\/]+)([^"']+)['"][^>]*>\2[^<]+\.{3}<\/a>`)
+	EllipsisLink   = regexp.MustCompile(`(?i)<a href=["'](https?://)?([^/]+)([^"']+)['"][^>]*>{2}[^<]+\.{3}</a>`)
+	Email          = regexp.MustCompile(`(?i)\b[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b`)
+	FacebookID     = regexp.MustCompile(`\d{15}\.\d{5}`)
+	Fraction       = regexp.MustCompile(`(\d+)/(\d+)`)
+	FootnoteNumber = regexp.MustCompile(`([^/\s])(` + super + `+)`) //(?!\w)`)
+	FootnoteText   = regexp.MustCompile(`(?im)(^|[\r\n]+)_{3}[\r\n]*([\s\S]+)$`)
+	IpAddress      = regexp.MustCompile(`\b(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\b`)
 
-	Email      = regexp.MustCompile(`(?i)\b[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b`)
-	FacebookID = regexp.MustCompile(`\d{15}\.\d{5}`)
-	Fraction   = regexp.MustCompile(`(\d+)\/(\d+)`)
-	//FootnoteNumber = regexp.MustCompile(`([^\/\s])([⁰¹²³⁴⁵⁶⁷⁸⁹]+)(?!\w)`)
-	FootnoteText = regexp.MustCompile(`(?im)(^|[\r\n]+)_{3}[\r\n]*([\s\S]+)$`)
-	IpAddress    = regexp.MustCompile(`\b(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\b`)
-
-	// LinkAttributeQuotes captured for replacement if erroneously encoded to a
-	// typography style.
-	LinkAttributeQuotes = regexp.MustCompile(`(?i)(<a [^>]+>)([^<]+)<\/a>`)
+	// LinkAttributeQuotes captures HTML encoded quotes around anchor tag attributes
+	// for replacement with regular quotes.
+	LinkAttributeQuotes = regexp.MustCompile(`(?i)(<a [^>]+>)([^<]+)</a>`)
 
 	QuoteRightSingle = regexp.MustCompile(`(\w)'`)
 	QuoteLeftSingle  = regexp.MustCompile(`\b'(\w)`)
@@ -46,6 +45,6 @@ var (
 	//    <a href="http://www.motoidaho.com/sites/default/files/IAMC%20Newsletter%20" rel="nofollow">www.motoidaho.com/sites/default/files/IAMC%20Newsletter%20</a>(4-2011%20Issue%202).pdf
 	//    <a href="http://www.idahogeology.org/PDF/Technical_Reports_" rel="nofollow">www.idahogeology.org/PDF/Technical_Reports_</a>(T)/TR-81-1.pdf
 	//
-	TruncatedLink = regexp.MustCompile(`(?i)<\/a>(\([\w\/\.\-%\)\(]+)`)
-	URL           = regexp.MustCompile(`(http:\/\/[^\s\r\n]+)`)
+	TruncatedLink = regexp.MustCompile(`(?i)</a>(\([\w\/\.\-%\)\(]+)`)
+	URL           = regexp.MustCompile(`(http://[^\s\r\n]+)`)
 )

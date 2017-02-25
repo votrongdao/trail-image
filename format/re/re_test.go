@@ -24,7 +24,7 @@ func TestIpAddress(t *testing.T) {
 }
 
 func TestLinkQuote(t *testing.T) {
-	assert.Equal(t, "", re.LinkAttributeQuotes(`<a href=\"/page&rdquo;>so you &ldquo;say&rdquo;</a>`))
+	assert.Len(t, re.LinkAttributeQuotes.FindStringSubmatch(`<a href="/page&rdquo;>so you &ldquo;say&rdquo;</a>`), 3)
 }
 
 func TestURL(t *testing.T) {

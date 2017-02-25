@@ -25,7 +25,9 @@
    "go.lintFlags": [
       "disable-all",
       "enable=errcheck",
+      "enable=gas",
       "enable=goconst",
+      "enable=golint",
       "enable=gotype",
       "enable=staticcheck",
       "enable=structcheck",
