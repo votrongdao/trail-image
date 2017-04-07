@@ -41,6 +41,7 @@
    "go.formatTool": "goimports",
    "go.formatFlags": [],
    "go.formatOnSave": true,
+   "go.liveErrors": { "enabled": true, "delay": 500 },
    // enabling this breaks the linters
    "go.gocodeAutoBuild": false
 }

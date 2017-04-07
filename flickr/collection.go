@@ -1,5 +1,7 @@
 package flickr
 
+import "encoding/json"
+
 type (
 	Collection struct {
 		ID          string           `json:"id"`
@@ -17,3 +19,12 @@ type (
 		Description string `json:"description"`
 	}
 )
+
+func ParseCollection(raw []byte) (*Collection, error) {
+	out := &Collection{}
+	err := json.Unmarshal(raw, &out)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}

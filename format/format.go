@@ -58,6 +58,11 @@ func replaceEverySubmatch(text []byte, r *regexp.Regexp, fn submatchReplacer) []
 
 }
 
+// CommaList converts a list of strings into a single comma-delimited string.
+func CommaList(words ...string) string {
+	return strings.Join(words, ",")
+}
+
 // Typography replaces punctuation with HTML styled variants.
 func Typography(text string) string {
 	if text == "" {

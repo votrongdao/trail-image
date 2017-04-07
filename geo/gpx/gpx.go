@@ -47,6 +47,7 @@ type (
 // ToArray converts GPX point to a point construct.
 func (p *Point) ToArray(lastPoint geo.Point) geo.Point {
 	time := p.Time
+	speed := 0.0
 	ts := 0.0
 
 	if time != "" {

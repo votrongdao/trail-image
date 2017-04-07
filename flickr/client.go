@@ -5,6 +5,8 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strings"
+
+	"trailimage.com/format"
 )
 
 type (
@@ -106,13 +108,13 @@ func (c *Client) GetSetInfo(setID string) (*SetInfo, error) {
 
 func (c *Client) GetSetPhotos(setID string) (*SetPhotos, error) {
 	res, err := c.call("photosets.getPhotos", TYPE_SET, setID, Params{
-		"extras": strings.Join([]string{
+		"extras": format.CommaList(
 			EXTRA_DESCRIPTION,
 			EXTRA_TAGS,
 			EXTRA_DATE_TAKEN,
 			EXTRA_LOCATION,
 			EXTRA_PATH_ALIAS,
-		}, ","),
+		),
 	})
 	if err != nil {
 		return nil, err
@@ -130,13 +132,13 @@ func (c *Client) GetPhotoSizes(photoID string) ([]*Size, error) {
 
 func (c *Client) GetTaggedPhotos(tags []string) (*PhotoSearch, error) {
 	res, err := c.call("photos.getSizes", TYPE_USER, c.UserID, Params{
-		"extras": strings.Join([]string{
+		"extras": format.CommaList(
 			EXTRA_DESCRIPTION,
 			EXTRA_TAGS,
 			EXTRA_DATE_TAKEN,
 			EXTRA_LOCATION,
 			EXTRA_PATH_ALIAS,
-		}, ","),
+		),
 		"tags":     strings.Join(tags, ","),
 		"sort":     "relevance",
 		"per_page": "500",

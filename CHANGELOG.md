@@ -1,5 +1,5 @@
 ## 3.0.0
-- Rewrite in Go
+- Rewrite in Go and move to Google AppEngine hosting
 
 ## 2.2.0
 - Use in-memory caching rather than Redis for views

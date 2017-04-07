@@ -27,7 +27,8 @@ func (p Point) speed() float64 {
 	return p[4]
 }
 
-// SetSepeedFromPoint computes speed from another point.
+// SetSepeedFromPoint computes speed based on time and distance change from
+// another point.
 func (p Point) SetSpeedFromPoint(other Point) {
 	p[4] = Speed(other, p)
 }

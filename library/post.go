@@ -26,6 +26,7 @@ type Post struct {
 	Title    string
 	SubTitle string
 
+	Description     string
 	LongDescription string
 
 	IsPartial bool
@@ -80,6 +81,7 @@ func (p *Post) Empty() *Post {
 	return p
 }
 
+// RemoveInfo clears all post fields.
 func (p *Post) RemoveInfo() *Post {
 	//p.CreatedOn = time.Time.
 	p.CoverPhoto = nil
@@ -96,11 +98,12 @@ func (p *Post) RemoveInfo() *Post {
 	return p
 }
 
+// ParseSetInfo converts Flickr response into a Post.
 func ParseSetInfo(info *flickr.SetInfo) *Post {
-	thumb := fmt.Sprintf("http://farm%s.staticflicker.com/%s/%s_%s", info.Farm, info.Server, info.IsPrimary, info.Secret)
+	thumb := fmt.Sprintf("http://farm%d.staticflicker.com/%s/%s_%s", info.Farm, info.Server, info.Primary, info.Secret)
 	return &Post{
 		ID:            info.ID,
-		PhotoCount:    info.Photos,
+		PhotoCount:    info.PhotoCount,
 		Description:   info.Description.Text,
 		BigThumbUrl:   thumb + ".jpg",
 		SmallThumbUrl: thumb + "_s.jpg",

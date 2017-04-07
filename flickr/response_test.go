@@ -2,15 +2,21 @@ package flickr_test
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"testing"
+
+	"os"
 
 	"github.com/stretchr/testify/assert"
 	"trailimage.com/flickr"
 )
 
+const slash = string(os.PathSeparator)
+
 func mockResponse(t *testing.T, name string) *flickr.Response {
-	dat, err := ioutil.ReadFile("test/flickr." + name + ".json")
+	path := fmt.Sprintf("test%sflickr.%s.json", slash, name)
+	dat, err := ioutil.ReadFile(path)
 	assert.NoError(t, err)
 
 	res := &flickr.Response{}
