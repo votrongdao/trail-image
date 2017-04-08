@@ -1,10 +1,12 @@
 package flickr
 
 import (
+	"context"
 	"encoding/json"
 	"io/ioutil"
-	"net/http"
 	"strings"
+
+	"google.golang.org/appengine/urlfetch"
 
 	"trailimage.com/format"
 )
@@ -19,21 +21,23 @@ type (
 		RequestToken string
 		AccessToken  string
 		CallbackUrl  string
+		Context      context.Context
 	}
 
 	Params map[string]string
 )
 
-func Configure() *Client {
-	return nil
+func Configure(ctx context.Context) *Client {
+	return &Client{Context: ctx}
 }
 
 // http://www.flickr.com/services/api/response.json.html
 func (c *Client) call(method, idType, id string, extras Params) (*Response, error) {
 	//key := method + ":" + id
 	url := "https://" + URL_HOST + URL_BASE + c.parameterize(method, idType, id, extras)
+	client := urlfetch.Client(c.Context)
+	res, err := client.Get(url)
 
-	res, err := http.Get(url)
 	if err != nil {
 		return nil, err
 	}

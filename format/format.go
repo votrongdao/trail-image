@@ -139,6 +139,7 @@ func tagSlug(tag string) string {
 	return notWord.ReplaceAllString(strings.ToLower(tag), "")
 }
 
+// SayNumber returns the word for a number.
 func SayNumber(n int, capitalize bool) string {
 	word := fmt.Sprintf("%d", n)
 
