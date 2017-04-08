@@ -20,6 +20,7 @@ type (
 		Headline          string          `json:"headline,omitempty"`
 		Version           float32         `json:"version,omitempty"`
 		ProductionCompany *Organization   `json:"productionCompany,omitempty"`
+		Publisher         *Organization   `json:"publisher,omitempty"`
 	}
 
 	MediaObject struct {
@@ -77,4 +78,9 @@ func MakeImage(url string, width uint, height uint) *Image {
 			},
 		},
 	}
+}
+
+func (c *CreativeWork) AddPublisher(o *Organization) *CreativeWork {
+	c.Publisher = o
+	return c
 }

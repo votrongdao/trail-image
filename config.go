@@ -2,10 +2,11 @@ package main
 
 import (
 	"trailimage.com/flickr"
-	"trailimage.com/linkdata"
+	ld "trailimage.com/linkdata"
 )
 
 const (
+	NAME         = "Trail Image"
 	DOMAIN       = "trailimage.com"
 	SIZE_THUMB   = flickr.SIZE_SQUARE_150
 	SIZE_PREVIEW = flickr.SIZE_SMALL_320
@@ -24,8 +25,7 @@ var (
 	}
 )
 
-var Owner = linkdata.
-	MakePerson("Jason Abbott").
+var Owner = ld.MakePerson("Jason Abbott").
 	AddImage("http://www.trailimage.com/img/face4_300px.jpg", 300, 300).
 	AddUrl("http://www.trailimage.com/about").
 	AddSameAs(
@@ -35,11 +35,12 @@ var Owner = linkdata.
 		"https://twitter.com/trailimage",
 	)
 
-var Site = linkdata.
-	MakeWebSite("Trail Image").
+var Site = ld.MakeWebSite(NAME).
+	AddPublisher(ld.
+		MakeOrganization(NAME).
+		AddLogo("http://www."+DOMAIN+"/img/logo-large.png", 200, 200)).
 	AddDescription("Stories, images and videos of small adventure trips in and around the state of Idaho").
-	AddUrl("http://www."+DOMAIN).
-	AddLogo("http://www."+DOMAIN+"/img/logo-large.png", 200, 200)
+	AddUrl("http://www." + DOMAIN)
 
 	// var Sites = &linkdata.Site{
 	// 	Domain:      DOMAIN,

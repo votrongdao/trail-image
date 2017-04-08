@@ -27,6 +27,7 @@ func MakeOrganization(name string) *Organization {
 	}
 }
 
+// AddLogo adds ImageObject as organization logo.
 func (o *Organization) AddLogo(url string, width uint, height uint) *Organization {
 	o.Logo = MakeImage(url, width, height)
 	return o
