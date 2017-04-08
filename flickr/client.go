@@ -24,6 +24,10 @@ type (
 	Params map[string]string
 )
 
+func Configure() *Client {
+	return nil
+}
+
 // http://www.flickr.com/services/api/response.json.html
 func (c *Client) call(method, idType, id string, extras Params) (*Response, error) {
 	//key := method + ":" + id

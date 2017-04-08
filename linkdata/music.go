@@ -9,15 +9,15 @@ type (
 	// http://schema.org/MusicAlbum
 	MusicAlbum struct {
 		CreativeWork
-		Release *MusicRelease `json:"albumRelease"`
-		Artist  *MusicGroup   `json:"byArtist"`
+		Release *MusicRelease `json:"albumRelease,omitempty"`
+		Artist  *MusicGroup   `json:"byArtist,omitempty"`
 	}
 
 	// http://schema.org/MusicPlaylist
 	MusicPlaylist struct {
 		CreativeWork
-		TrackCount uint              `json:"numTracks"`
-		Track      []*MusicRecording `json:"track"`
+		TrackCount uint              `json:"numTracks,omitempty"`
+		Track      []*MusicRecording `json:"track,omitempty"`
 	}
 
 	// http://schema.org/MusicRecording
@@ -28,19 +28,19 @@ type (
 	// http://schema.org/MusicComposition
 	MusicComposition struct {
 		CreativeWork
-		Composer   *Person         `json:"composer"`
-		Lyrics     *CreativeWork   `json:"lyrics"`
-		Lyricist   *Person         `json:"lyricist"`
-		MusicalKey string          `json:"musicalKey"`
-		RecordedAs *MusicRecording `json:"recordedAs"`
+		Composer   *Person         `json:"composer,omitempty"`
+		Lyrics     *CreativeWork   `json:"lyrics,omitempty"`
+		Lyricist   *Person         `json:"lyricist,omitempty"`
+		MusicalKey string          `json:"musicalKey,omitempty"`
+		RecordedAs *MusicRecording `json:"recordedAs,omitempty"`
 	}
 
 	// http://schema.org/MusicRelease
 	MusicRelease struct {
 		MusicPlaylist
-		CatalogNumber string        `json:"catalogNumber"`
-		CreditedTo    *Person       `json:"creditedTo"`
-		RecordLabel   *Organization `json:"recordLabel"`
-		ReleaseOf     *MusicAlbum   `json:"releaseOf"`
+		CatalogNumber string        `json:"catalogNumber,omitempty"`
+		CreditedTo    *Person       `json:"creditedTo,omitempty"`
+		RecordLabel   *Organization `json:"recordLabel,omitempty"`
+		ReleaseOf     *MusicAlbum   `json:"releaseOf,omitempty"`
 	}
 )

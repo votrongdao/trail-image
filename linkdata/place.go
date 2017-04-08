@@ -2,5 +2,5 @@ package linkdata
 
 type Place struct {
 	Thing
-	ContainedInPlace *Place `json:"containedInPlace"`
+	ContainedInPlace *Place `json:"containedInPlace,omitempty"`
 }
