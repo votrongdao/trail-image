@@ -1,6 +1,8 @@
 package main
 
 import (
+	"os"
+
 	"trailimage.com/flickr"
 	ld "trailimage.com/linkdata"
 )
@@ -26,6 +28,7 @@ var (
 )
 
 var Owner = ld.MakePerson("Jason Abbott").
+	AddEmail(os.Getenv("EMAIL_CONTACT")).
 	AddImage("http://www.trailimage.com/img/face4_300px.jpg", 300, 300).
 	AddUrl("http://www.trailimage.com/about").
 	AddSameAs(
@@ -42,15 +45,10 @@ var Site = ld.MakeWebSite(NAME).
 	AddDescription("Stories, images and videos of small adventure trips in and around the state of Idaho").
 	AddUrl("http://www." + DOMAIN)
 
-	// var Sites = &linkdata.Site{
-	// 	Domain:      DOMAIN,
-	// 	Title:       "Trail Image",
-	// 	Subtitle:    "Adventure Photography by " + Owner.Name,
-	// 	Description: "Stories, images and videos of small adventure trips in and around the state of Idaho",
-	// 	Url:         "http://www." + DOMAIN,
-	// 	Logo: &linkdata.Image{
-	// 		Url:    "http://www." + DOMAIN + "/img/logo-large.png",
-	// 		Width:  200,
-	// 		Height: 200,
-	// 	},
-	// }
+var ReferralSpam = struct {
+	updateFrequency int
+	listUrl         string
+}{
+	updateFrequency: 2,
+	listUrl:         "https://raw.githubusercontent.com/piwik/referrer-spam-blacklist/master/spammers.txt",
+}

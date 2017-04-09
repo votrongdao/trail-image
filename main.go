@@ -3,16 +3,12 @@ package main
 import (
 	"html/template"
 	"net/http"
+
+	"trailimage.com/middleware"
 )
 
 func init() {
-	http.HandleFunc("/", blog)
-}
-
-func Prehook(handler http.HandlerFunc) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		handler(w, r)
-	}
+	http.HandleFunc("/", middleware.Get(blog))
 }
 
 // see https://hackernoon.com/golang-template-1-bcb690165663

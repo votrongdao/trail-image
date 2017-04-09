@@ -19,3 +19,8 @@ func MakePerson(name string) *Person {
 		Thing: Thing{Type: "Person", Name: name},
 	}
 }
+
+func (p *Person) AddEmail(email string) *Person {
+	p.Email = email
+	return p
+}

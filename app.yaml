@@ -7,3 +7,6 @@ handlers:
   upload: favicon.ico
 - url: /.*
   script: _go_app
+
+env_variables:
+  EMAIL_CONTACT: nobody@somewhere.com
