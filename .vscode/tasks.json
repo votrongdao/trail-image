@@ -5,10 +5,30 @@
     "suppressTaskName": true,
     "showOutput": "always",
     "tasks": [
+        // https://cloud.google.com/appengine/docs/standard/go/tools/using-local-server
         {
             "taskName": "Run AppEngine Server",
-            "command": "dev_appserver.py ./",
-            "isShellCommand": true
+            "command": "dev_appserver.py ./cmd/server/",
+            "isShellCommand": true,
+            "isBuildCommand": true
+        },
+        {
+           "taskName": "Clear DataStore",
+           "command": "dev_appserver.py --clear_datastore=yes app.yaml",
+           "isShellCommand": true
+        },
+        // https://cloud.google.com/sdk/docs/managing-components
+        {
+           "taskName": "Update Google Cloud Components",
+           "command": "gcloud components update",
+           "isShellCommand": true
+
+        },
+        // https://cloud.google.com/sdk/gcloud/reference/info
+        {
+           "taskName": "Show Cloud Information",
+           "command": "gcloud info ",
+           "isShellCommand": true
         }
-    ]
+   ]
 }

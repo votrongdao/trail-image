@@ -1,18 +1,16 @@
-package main
+package blog
 
 import (
 	"html/template"
 	"net/http"
-
-	"trailimage.com/middleware"
 )
 
 func init() {
-	http.HandleFunc("/", middleware.Get(blog))
+	http.HandleFunc("/", test)
 }
 
 // see https://hackernoon.com/golang-template-1-bcb690165663
-func blog(w http.ResponseWriter, r *http.Request) {
+func test(w http.ResponseWriter, r *http.Request) {
 	// c := appengine.NewContext(r)
 	t, err := template.ParseFiles("templates/post.html")
 	if err != nil {

@@ -9,4 +9,4 @@ handlers:
   script: _go_app
 
 env_variables:
-  EMAIL_CONTACT: nobody@somewhere.com
+  EMAIL_CONTACT: 'nobody@somewhere.com'
