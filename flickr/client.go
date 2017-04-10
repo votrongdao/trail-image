@@ -8,6 +8,7 @@ import (
 
 	"google.golang.org/appengine/urlfetch"
 
+	"trailimage.com/config"
 	"trailimage.com/format"
 )
 
@@ -28,7 +29,10 @@ type (
 )
 
 func Configure(ctx context.Context) *Client {
-	return &Client{Context: ctx}
+	return &Client{
+		Context: ctx,
+		UserID:  config.Flickr.UserID,
+	}
 }
 
 // http://www.flickr.com/services/api/response.json.html

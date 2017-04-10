@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"html/template"
 	"net/http"
 
@@ -8,6 +9,7 @@ import (
 
 	"google.golang.org/appengine"
 	"google.golang.org/appengine/log"
+	"google.golang.org/appengine/runtime"
 )
 
 const (
@@ -55,6 +57,11 @@ func init() {
 // see https://golang.org/pkg/text/template/
 func test(w http.ResponseWriter, r *http.Request) {
 	ctx := appengine.NewContext(r)
+
+	runtime.RunInBackground(ctx, func(ctx, context.Context) {
+
+	})
+
 	log.Infof(ctx, "test")
 
 	t, err := template.ParseFiles("../templates/post.html")
