@@ -8,7 +8,7 @@
         // https://cloud.google.com/appengine/docs/standard/go/tools/using-local-server
         {
             "taskName": "Run AppEngine Server",
-            "command": "dev_appserver.py ./cmd/server/",
+            "command": "dev_appserver.py ./server/",
             "isShellCommand": true,
             "isBuildCommand": true
         },
@@ -27,7 +27,7 @@
         // https://cloud.google.com/sdk/gcloud/reference/info
         {
            "taskName": "Show Cloud Information",
-           "command": "gcloud info ",
+           "command": "gcloud info",
            "isShellCommand": true
         }
    ]
