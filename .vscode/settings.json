@@ -19,7 +19,7 @@
       "promptForTags": false,
       "transform": "camelcase"
    },
-   "go.buildOnSave": true,
+   "go.buildOnSave": false,
    "go.vetOnSave": true,
    "go.vetFlags": [],
    "go.buildTags": "",

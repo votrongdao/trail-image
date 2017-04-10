@@ -11,24 +11,24 @@ import (
 )
 
 const (
-	ROUTE_CATEGORY      = "category"
-	ROUTE_MONTH         = "month"
-	ROUTE_PART_KEY      = "partKey"
-	ROUTE_PHOTO_ID      = "photoID"
-	ROUTE_PHOTO_TAG     = "tagSlug"
-	ROUTE_POST_ID       = "postID"
-	ROUTE_POST_KEY      = "postKey"
-	ROUTE_ROOT_CATEGORY = "rootCategory"
-	ROUTE_SERIES_KEY    = "seriesKey"
-	ROUTE_YEAR          = "year"
-	RE_SLUG             = `([\w\d-]{4,})`
-	RE_PHOTO_ID         = `:` + ROUTE_PHOTO_ID + `(\d{10,11})`
-	RE_POST_ID          = `:` + ROUTE_POST_ID + `(\d{17})`
-	RE_POST_KEY         = `:` + ROUTE_POST_KEY + RE_SLUG
-	RE_SERIES           = `:` + ROUTE_SERIES_KEY + RE_SLUG + `/:` + ROUTE_PART_KEY + RE_SLUG
+	PATH_CATEGORY      = "category"
+	PATH_MONTH         = "month"
+	PATH_PART_KEY      = "partKey"
+	PATH_PHOTO_ID      = "photoID"
+	PATH_PHOTO_TAG     = "tagSlug"
+	PATH_POST_ID       = "postID"
+	PATH_POST_KEY      = "postKey"
+	PATH_ROOT_CATEGORY = "rootCategory"
+	PATH_SERIES_KEY    = "seriesKey"
+	PATH_YEAR          = "year"
+	SLUG               = `:[\w\d-]{4,}`
+	TOKEN_PHOTO_ID     = `{` + PATH_PHOTO_ID + `:\d{10,11}}`
+	TOKEN_POST_ID      = `{` + PATH_POST_ID + `:\d{17}}`
+	TOKEN_POST_KEY     = `{` + PATH_POST_KEY + SLUG + `}`
+	TOKEN_SERIES       = `{` + PATH_SERIES_KEY + SLUG + `}/{` + PATH_PART_KEY + SLUG + `}`
 )
 
-var r = createRouter()
+var r *mux.Router = createRouter()
 
 func createRouter() *mux.Router {
 	router := mux.NewRouter()
@@ -37,9 +37,18 @@ func createRouter() *mux.Router {
 }
 
 func init() {
-	r.HandleFunc("/", test).Methods(http.MethodGet)
-	r.HandleFunc("/products", test)
-	r.HandleFunc("/articles", test)
+	get := r.Methods(http.MethodGet).Subrouter()
+	get.HandleFunc("/", test)
+	get.HandleFunc("/rss", test)
+	get.HandleFunc("/about", test)
+	get.HandleFunc("/js/post-menu-data.js", test)
+	get.HandleFunc("/sitemap.xml", test)
+	get.HandleFunc("/exif/"+TOKEN_PHOTO_ID, test)
+	get.HandleFunc("/category-menu", test)
+	get.HandleFunc("/mobile-menu", test)
+	get.HandleFunc("/search", test)
+	get.HandleFunc("/"+TOKEN_PHOTO_ID, test)
+	get.HandleFunc("/"+TOKEN_POST_ID, test)
 }
 
 // see https = //hackernoon.com/golang-template-1-bcb690165663
