@@ -23,7 +23,7 @@
       "promptForTags": false,
       "transform": "camelcase"
    },
-   "go.buildOnSave": false,
+   "go.buildOnSave": true,
    "go.vetOnSave": true,
    "go.vetFlags": [],
    "go.buildTags": "",
@@ -53,5 +53,7 @@
    "go.formatOnSave": true,
    "go.liveErrors": { "enabled": true, "delay": 500 },
    // enabling this breaks the linters
-   "go.gocodeAutoBuild": false
+   "go.gocodeAutoBuild": false,
+   // currently spiking the CPU
+   "go.useLanguageServer": false
 }

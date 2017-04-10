@@ -1,29 +1,46 @@
-package blog
+package config
 
 import (
 	"os"
 
-	"trailimage.com/flickr"
+	f "trailimage.com/flickr"
 	ld "trailimage.com/linkdata"
+)
+
+type (
+	token struct {
+		Type             string
+		Access           string
+		AccessExpiration string
+		Secret           string
+		Refresh          string
+	}
+
+	auth struct {
+		ClientID string
+		Secret   string
+		Callback string
+		Token    token
+	}
 )
 
 const (
 	NAME         = "Trail Image"
 	DOMAIN       = "trailimage.com"
-	SIZE_THUMB   = flickr.SIZE_SQUARE_150
-	SIZE_PREVIEW = flickr.SIZE_SMALL_320
+	SIZE_THUMB   = f.SIZE_SQUARE_150
+	SIZE_PREVIEW = f.SIZE_SMALL_320
 )
 
 var (
 	SIZE_NORMAL = []string{
-		flickr.SIZE_LARGE_1024,
-		flickr.SIZE_MEDIUM_800,
-		flickr.SIZE_MEDIUM_640,
+		f.SIZE_LARGE_1024,
+		f.SIZE_MEDIUM_800,
+		f.SIZE_MEDIUM_640,
 	}
 	SIZE_BIG = []string{
-		flickr.SIZE_LARGE_2048,
-		flickr.SIZE_LARGE_1600,
-		flickr.SIZE_LARGE_1024,
+		f.SIZE_LARGE_2048,
+		f.SIZE_LARGE_1600,
+		f.SIZE_LARGE_1024,
 	}
 )
 
