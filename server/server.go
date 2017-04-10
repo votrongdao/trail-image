@@ -45,13 +45,14 @@ func init() {
 	get.HandleFunc("/sitemap.xml", test)
 	get.HandleFunc("/exif/"+TOKEN_PHOTO_ID, test)
 	get.HandleFunc("/category-menu", test)
-	get.HandleFunc("/mobile-menu", test)
+	get.HandleFunc("/mobile-menu", mobileMenu)
 	get.HandleFunc("/search", test)
 	get.HandleFunc("/"+TOKEN_PHOTO_ID, test)
 	get.HandleFunc("/"+TOKEN_POST_ID, test)
 }
 
-// see https = //hackernoon.com/golang-template-1-bcb690165663
+// see https://hackernoon.com/golang-template-1-bcb690165663
+// see https://golang.org/pkg/text/template/
 func test(w http.ResponseWriter, r *http.Request) {
 	ctx := appengine.NewContext(r)
 	log.Infof(ctx, "test")
@@ -60,7 +61,7 @@ func test(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		w.Write([]byte("Unable to find template"))
 	} else {
-		t.Execute(w, "Hello World!")
+		t.Execute(w, "Trail Image")
 	}
 
 	//ctx  = = appengine.NewContext(r)

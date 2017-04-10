@@ -1,5 +1,5 @@
 application: trail-image-blog
-version: 3.0.0
+#version: "3.0.0"
 runtime: go
 api_version: go1
 default_expiration: "1d"        # for CDN serving of static files (use url versioning if long!)
@@ -8,19 +8,17 @@ handlers:
 # all the static files that we normally serve ourselves are defined here and Google will handle
 # serving them for us from it's own CDN / edge locations. For all the configuration options see:
 # https://cloud.google.com/appengine/docs/go/config/appconfig#Go_app_yaml_Static_file_handlers
-- url: /
-  mime_type: text/html
-  static_files: public/index.html
-  upload: public/index.html
-
 - url: /favicon.ico
   mime_type: image/x-icon
-  static_files: public/favicon.ico
-  upload: public/favicon.ico
+  static_files: public/img/favicon.ico
+  upload: public/img/favicon.ico
 
-- url: /scripts
+- url: /js
   mime_type: text/javascript
-  static_dir: public/scripts
+  static_dir: public/js
+
+- url: /img
+  static_dir: public/img
 
 # static files normally don't touch the server that the app runs on but server-side template files
 # needs to be readable by the app. The application_readable option makes sure they are available as
@@ -34,4 +32,4 @@ handlers:
   script: _go_app
 
 env_variables:
-  EMAIL_CONTACT: 'nobody@somewhere.com'
+  EMAIL_CONTACT: 'nobody@somewhere. com'

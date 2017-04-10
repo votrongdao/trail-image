@@ -139,6 +139,12 @@ func tagSlug(tag string) string {
 	return notWord.ReplaceAllString(strings.ToLower(tag), "")
 }
 
+// IconTag returns the span tag for a Glyph icon.
+// See http://getbootstrap.com/components/#glyphicons
+func IconTag(name string) string {
+	return `<span class="glyphicon glyphicon-` + name + `"></span>`
+}
+
 // SayNumber returns the word for a number.
 func SayNumber(n int, capitalize bool) string {
 	word := fmt.Sprintf("%d", n)

@@ -13,6 +13,10 @@
    "tslint.enable": true,
    "tslint.run": "onType",
 
+   "files.associations": {
+       "*.tmpl": "handlebars"
+   },
+
    "go.addTags": {
       "tags": "json",
       "options": "json=omitempty",

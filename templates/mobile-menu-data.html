@@ -1,0 +1,27 @@
+<ul class="links">
+	<li><a href="/" rel="home">Home {{'home'|icon}}</a></li>
+	<li><a href="/about" rel="author">About {{'info-sign'|icon}}</a></li>
+	<li><a href="/photo-tag" rel="search">Photo Tags {{'tags'|icon}}</a></li>
+	<li><a href="/ruminations">Ruminations {{'leaf'|icon}}</a></li>
+{{! contact-link}}
+	<li><a href="/rss" class="feed-icon" rel="alternate" type="application/rss+xml">RSS Feed {{'fire'|icon}}</a></li>
+	<li><a href="https://twitter.com/trailimage" rel="me">Twitter {{'comment'|icon}}</a></li>
+</ul>
+
+<ul class="tag-list">
+{{#each library.categories}}
+	<li class="{{lowerCase this.title}}">{{.icon|icon}}{{this.title}}</li>
+{{/each}}
+</ul>
+
+{{'chevron-down'|icon}}
+
+<nav class="tags">
+{{#each library.categories}}
+	<ul class="{{lowerCase this.title}}">
+	{{#this.subcategories}}
+		<li><a href="/{{this.key}}" rel="tag">{{this.title}}</a><span class="count">({{this.posts.length}})</span></li>
+	{{/this.subcategories}}
+	</ul>
+{{/each}}
+</nav>

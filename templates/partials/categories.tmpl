@@ -1,0 +1,14 @@
+{{define "categories"}}
+{{if .}}
+<nav class="tag-wrapper">
+	<ul class="tags">
+		<li class="label">More like this:</li>
+		{{range this}}
+			<li><a href="/{{@key}}" rel="tag">{{.}}</a></li>
+		{{end}}
+	</ul>
+	{{'tags'|icon}}
+</nav>
+{{end}}
+<span></span>
+{{end}}
